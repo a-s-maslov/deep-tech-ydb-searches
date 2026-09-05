@@ -1,0 +1,33 @@
+.venv/
+.venv-linux/
+.venv-data/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+*.egg-info/
+build/
+.idea/
+.vscode/
+docs/screencast-credentials.local.md
+/internal/
+/.runtime/
+
+# Downloaded and generated data never goes to git.
+data/raw/
+data/work/
+data/output/
+.env
+config/workload.local.json
+config/workload.stand.json
+config/workload.podman*.json
+config/workload.*.podman.json
+bin/
+*.part
+*.parts/
+*.assembling
+
+# Local model cache if HF_HOME is pointed into the repository.
+.cache/
+.gocache/
+.gomodcache/
+.tmp/

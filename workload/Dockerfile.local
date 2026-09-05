@@ -1,0 +1,7 @@
+# Local Podman build: the Linux binary is cross-compiled on the Windows host
+# with build-workload-linux.ps1 -Output workload/bin/search-workload-linux-amd64.
+# This avoids downloading the Go builder image during workshop preparation.
+FROM ubuntu:24.04
+COPY bin/search-workload-linux-amd64 /usr/local/bin/search-workload
+USER 65532:65532
+ENTRYPOINT ["/usr/local/bin/search-workload"]

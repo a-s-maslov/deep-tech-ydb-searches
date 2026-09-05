@@ -1,0 +1,30 @@
+{
+  "castorini_index": {
+    "url": "https://rgw.cs.uwaterloo.ca/pyserini/indexes/faiss.miracl-v1.0-ru.mdpr-tied-pft-msmarco-ft-miracl-ru.20230329.e40d4a.tar.gz",
+    "filename": "faiss.miracl-v1.0-ru.mdpr-tied-pft-msmarco-ft-miracl-ru.20230329.e40d4a.tar.gz",
+    "size": 27177739148,
+    "md5": "b9460efd096292a1012ab1d27082498e",
+    "documents": 9543918,
+    "dimension": 768,
+    "metric": "inner_product"
+  },
+  "miracl": {
+    "language": "ru",
+    "revision": "5be20db",
+    "corpus_revision": "d921ec7",
+    "topics": "https://huggingface.co/datasets/miracl/miracl/resolve/5be20db/miracl-v1.0-ru/topics/topics.miracl-v1.0-ru-dev.tsv",
+    "qrels": "https://huggingface.co/datasets/miracl/miracl/resolve/5be20db/miracl-v1.0-ru/qrels/qrels.miracl-v1.0-ru-dev.tsv",
+    "corpus_url_template": "https://huggingface.co/datasets/miracl/miracl-corpus/resolve/d921ec7/miracl-corpus-v1.0-ru/docs-{number}.jsonl.gz",
+    "corpus_files": 20,
+    "documents": 9543918
+  },
+  "query_encoder": {
+    "model": "castorini/mdpr-tied-pft-msmarco-ft-miracl-ru",
+    "model_revision": "31e6284f3a77d1d61e16fd0f7f7d37b8c0346a81",
+    "tokenizer": "bert-base-multilingual-cased",
+    "tokenizer_revision": "3f076fdb1ab68d5b2880cb87a0886f315b8146f8",
+    "max_length": 32,
+    "dimension": 768,
+    "normalize": false
+  }
+}

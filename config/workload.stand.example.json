@@ -1,0 +1,63 @@
+{
+  "connection_string": "grpcs://ydb.example.net:2135/Root/workshop",
+  "anonymous": false,
+  "query_file": "../data/output/smoke-50000/workload-queries.json.gz",
+  "document_file": "../data/output/smoke-50000/workload-documents.jsonl.gz",
+  "table_path": "deep_tech_search_documents",
+  "fulltext_index": "ft_idx",
+  "vector_index": "vec_idx",
+  "vector_dimension": 768,
+  "kmeans_search_top_size": 24,
+  "session_pool_size": 4096,
+  "session_pool_usage_limit": 100,
+  "request_timeout": "30s",
+  "admin_timeout": "15m",
+  "partitioning": {
+    "base_min_partitions": 64,
+    "fulltext_min_partitions": 16,
+    "vector_min_partitions": 9
+  },
+  "metrics": { "application": "deep-tech-ydb-searches", "listen_address": "0.0.0.0:19091", "interval": "10s" },
+  "observer": { "listen_address": "0.0.0.0:19092", "interval": "5s" },
+  "quality": { "workers": 16 },
+  "dml": {
+    "mode": "verified",
+    "rps": 7,
+    "workers": 16,
+    "id_start": 9000000000000000000,
+    "pool_size": 50000
+  },
+  "workload": {
+    "fulltext": { "rps": 4, "workers": 8 },
+    "vector":   { "rps": 2, "workers": 8 },
+    "hybrid":   { "rps": 1, "workers": 8 }
+  },
+  "profiles": {
+    "overview": {
+      "fulltext": { "rps": 4, "workers": 8 },
+      "vector":   { "rps": 2, "workers": 8 },
+      "hybrid":   { "rps": 1, "workers": 8 }
+    },
+    "fulltext-partition": {
+      "fulltext": { "rps": 650, "workers": 256 },
+      "vector":   { "rps": 20, "workers": 24 },
+      "hybrid":   { "rps": 10, "workers": 24 }
+    },
+    "elasticity-base": {
+      "fulltext": { "rps": 120, "workers": 800 },
+      "vector":   { "rps": 60,  "workers": 600 },
+      "hybrid":   { "rps": 30,  "workers": 600 }
+    },
+    "elasticity-demand": {
+      "fulltext": { "rps": 288, "workers": 800 },
+      "vector":   { "rps": 144, "workers": 700 },
+      "hybrid":   { "rps": 72,  "workers": 600 }
+    },
+    "elasticity-capacity": {
+      "fulltext": { "rps": 400, "end_rps": 1800, "workers": 1400 },
+      "vector":   { "rps": 200, "end_rps": 900,  "workers": 1000 },
+      "hybrid":   { "rps": 100, "end_rps": 450,  "workers": 700 },
+      "ramp": { "duration": "12m" }
+    }
+  }
+}

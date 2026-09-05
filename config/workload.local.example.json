@@ -1,0 +1,41 @@
+{
+  "connection_string": "grpc://localhost:2136/local",
+  "node_address_override": "localhost",
+  "anonymous": true,
+  "query_file": "../data/output/smoke-50000/workload-queries.json.gz",
+  "document_file": "../data/output/smoke-50000/workload-documents.jsonl.gz",
+  "table_path": "deep_tech_search_documents",
+  "fulltext_index": "ft_idx",
+  "vector_index": "vec_idx",
+  "vector_dimension": 768,
+  "kmeans_search_top_size": 32,
+  "session_pool_size": 128,
+  "request_timeout": "15s",
+  "admin_timeout": "15m",
+  "partitioning": {
+    "base_min_partitions": 1,
+    "fulltext_min_partitions": 1,
+    "vector_min_partitions": 1
+  },
+  "metrics": { "application": "deep-tech-ydb-searches", "listen_address": "0.0.0.0:9091", "interval": "10s" },
+  "observer": { "listen_address": "0.0.0.0:9092", "interval": "5s" },
+  "workload": {
+    "fulltext": { "rps": 5, "workers": 4 },
+    "vector":   { "rps": 10, "workers": 8 },
+    "hybrid":   { "rps": 5, "workers": 8 },
+    "ramp": { "duration": "5m", "start_multiplier": 0.25, "end_multiplier": 4 }
+  },
+  "profiles": {
+    "overview": {
+      "fulltext": { "rps": 10, "workers": 16 },
+      "vector":   { "rps": 10, "workers": 16 },
+      "hybrid":   { "rps": 10, "workers": 16 }
+    },
+    "fulltext-partition": {
+      "fulltext": { "rps": 10, "end_rps": 400, "workers": 128 },
+      "vector":   { "rps": 10, "workers": 16 },
+      "hybrid":   { "rps": 10, "workers": 16 },
+      "ramp": { "duration": "8m" }
+    }
+  }
+}

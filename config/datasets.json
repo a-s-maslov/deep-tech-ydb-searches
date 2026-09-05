@@ -1,0 +1,20 @@
+{
+  "profiles": {
+    "baseline-50k": {
+      "size": 50000,
+      "seed": 20260825,
+      "output_dir": "../data/output/smoke-50000",
+      "document_file": "../data/output/smoke-50000/workload-documents.jsonl.gz",
+      "query_file": "../data/output/smoke-50000/workload-queries.json.gz"
+    },
+    "scale-1m": {
+      "size": 1000000,
+      "seed": 20260825,
+      "output_dir": "../data/output/scale-1m",
+      "document_file": "../data/output/scale-1m/workload-documents.jsonl.gz",
+      "query_file": "../data/output/scale-1m/workload-queries.json.gz",
+      "exact_file": "../quality/artifacts/scale-1m-exact-top30.json.gz",
+      "quality_file": "../quality/results/scale-1m-current.json.gz"
+    }
+  }
+}

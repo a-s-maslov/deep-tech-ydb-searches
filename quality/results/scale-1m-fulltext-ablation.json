@@ -1,0 +1,77 @@
+{
+  "format_version": 1,
+  "profile": "scale-1m",
+  "documents": 1000000,
+  "queries": 1252,
+  "retrieval_depth": 30,
+  "ranking_depth": 10,
+  "variants": [
+    {
+      "name": "body-standard",
+      "index": {"column": "body", "tokenizer": "standard", "lowercase": true},
+      "query": {"minimum_should_match": "50%"},
+      "metrics": {"qrel_recall_micro": 0.3438202247, "hit_rate": 0.5463258786, "ndcg": 0.2317273083, "mrr": 0.3041039099}
+    },
+    {
+      "name": "body-standard-strip-stress",
+      "index": {"column": "body", "tokenizer": "standard", "lowercase": true},
+      "query": {"minimum_should_match": "50%", "strip_combining_acute": true},
+      "metrics": {"qrel_recall_micro": 0.3623595506, "hit_rate": 0.5678913738, "ndcg": 0.2288011134, "mrr": 0.2974406158}
+    },
+    {
+      "name": "body-snowball-strip-stress",
+      "index": {"column": "body", "tokenizer": "standard", "lowercase": true, "snowball": "russian"},
+      "query": {"minimum_should_match": "50%", "strip_combining_acute": true},
+      "metrics": {"qrel_recall_micro": 0.5780898876, "hit_rate": 0.7412140575, "ndcg": 0.3327166416, "mrr": 0.3983219402}
+    },
+    {
+      "name": "body-snowball-strip-stress-b0.2",
+      "index": {"column": "body", "tokenizer": "standard", "lowercase": true, "snowball": "russian"},
+      "query": {"minimum_should_match": "50%", "strip_combining_acute": true, "b": 0.2},
+      "metrics": {"qrel_recall_micro": 0.6696629213, "hit_rate": 0.7963258786, "ndcg": 0.4120396144, "mrr": 0.4788796887}
+    },
+    {
+      "name": "body-snowball-strip-stress-k1-1-b0.25",
+      "index": {"column": "body", "tokenizer": "standard", "lowercase": true, "snowball": "russian"},
+      "query": {"minimum_should_match": "50%", "strip_combining_acute": true, "k1": 1.0, "b": 0.25},
+      "metrics": {"qrel_recall_micro": 0.6688202247, "hit_rate": 0.7971246006, "ndcg": 0.4135355110, "mrr": 0.4795060305}
+    },
+    {
+      "name": "text-production",
+      "index": {"column": "text", "source": "normalized(title + two newlines + passage)", "tokenizer": "standard", "lowercase": true, "snowball": "russian"},
+      "query": {"minimum_should_match": "50%", "strip_combining_acute": true, "k1": 1.0, "b": 0.25},
+      "metrics": {"qrel_recall_micro": 0.8303370787, "hit_rate": 0.9129392971, "ndcg": 0.5362688691, "mrr": 0.5736320300},
+      "recall_at_100": 0.8873595506
+    }
+  ],
+  "hybrid": {
+    "selected": {"mode": "rrf", "fulltext_weight": 0.4, "vector_weight": 1.0, "k": 5.0, "branch_limits": [30, 30]},
+    "selected_full_run_ndcg_range": [0.6588014149, 0.6680366314],
+    "selected_full_run_recall_range": [0.8382022472, 0.8415730337],
+    "best_checked_alternative": {"mode": "linear", "normalize": true, "fulltext_weight": 0.25, "vector_weight": 1.0, "ndcg_range": [0.6636829159, 0.6684170576], "recall_range": [0.8508426966, 0.8561797753]}
+  },
+  "minimum_should_match": {
+    "25%": {"qrel_recall_micro": 0.8516853933, "ndcg": 0.5381094153, "duration_ms": 220645},
+    "50%": {"qrel_recall_micro": 0.8303370787, "ndcg": 0.5362688691, "duration_ms": 11346},
+    "75%": {"qrel_recall_micro": 0.5674157303, "ndcg": 0.4333912112, "duration_ms": 5115}
+  },
+  "query_groups": {
+    "accented_u0301": {"queries": 289, "fulltext_recall_at_30": 0.8658146965, "fulltext_ndcg_at_10": 0.5922823856},
+    "without_u0301": {"queries": 963, "fulltext_recall_at_30": 0.8227675528, "fulltext_ndcg_at_10": 0.5194589975},
+    "terms_1_3": {"queries": 50, "fulltext_recall_at_30": 0.7657142857, "fulltext_ndcg_at_10": 0.4200993613},
+    "terms_4_6": {"queries": 607, "fulltext_recall_at_30": 0.8249862411, "fulltext_ndcg_at_10": 0.5303020788},
+    "terms_7_plus": {"queries": 595, "fulltext_recall_at_30": 0.8437500000, "fulltext_ndcg_at_10": 0.5521181415}
+  },
+  "complementarity_at_30": {
+    "queries_hit_only_by_fulltext": 81,
+    "queries_hit_only_by_vector": 89,
+    "queries_hit_by_both": 1062,
+    "queries_hit_by_neither": 20
+  },
+  "literal_token_overlap": {
+    "found_in_fulltext_top30": {"qrels": 2956, "mean_query_token_coverage": 0.5141888652},
+    "found_at_positions_31_100": {"qrels": 203, "mean_query_token_coverage": 0.3994235103},
+    "missed_in_fulltext_top100": {"qrels": 401, "mean_query_token_coverage": 0.2566992165},
+    "queries_without_any_qrel_in_top100": 75
+  }
+}

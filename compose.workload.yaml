@@ -1,0 +1,52 @@
+services:
+  workload:
+    container_name: workshop-load
+    image: deep-tech-ydb-searches-workload:local
+    build:
+      context: ./workload
+      dockerfile: ${WORKLOAD_DOCKERFILE:-Dockerfile}
+    restart: unless-stopped
+    command: ["-config", "/config/workload.json", "-profile", "${WORKLOAD_PROFILE:-}"]
+    environment:
+      YDB_TOKEN: ${YDB_TOKEN:-}
+      YDB_CA_FILE: ${YDB_CA_FILE:-}
+      YDB_CONNECTION_STRING: ${YDB_CONNECTION_STRING:-}
+      YDB_NODE_ADDRESS_OVERRIDE: ${YDB_NODE_ADDRESS_OVERRIDE:-}
+      WORKLOAD_QUERY_FILE: /data/workload-queries.json.gz
+      WORKLOAD_DOCUMENT_FILE: /data/workload-documents.jsonl.gz
+    volumes:
+      - ${WORKLOAD_CONFIG:-./config/workload.local.json}:/config/workload.json:ro
+      - ${WORKLOAD_DATA:-./data/output/smoke-50000}:/data:ro
+    ports:
+      - "127.0.0.1:${WORKLOAD_METRICS_PORT:-9091}:9091"
+    extra_hosts:
+      - "host.containers.internal:host-gateway"
+    networks:
+      - monitoring
+
+  observer:
+    container_name: workshop-observer
+    image: deep-tech-ydb-searches-workload:local
+    command: ["-config", "/config/workload.json", "observe"]
+    restart: unless-stopped
+    environment:
+      YDB_TOKEN: ${YDB_TOKEN:-}
+      YDB_CA_FILE: ${YDB_CA_FILE:-}
+      YDB_CONNECTION_STRING: ${YDB_CONNECTION_STRING:-}
+      YDB_NODE_ADDRESS_OVERRIDE: ${YDB_NODE_ADDRESS_OVERRIDE:-}
+      WORKLOAD_QUERY_FILE: /data/workload-queries.json.gz
+      WORKLOAD_DOCUMENT_FILE: /data/workload-documents.jsonl.gz
+    volumes:
+      - ${WORKLOAD_CONFIG:-./config/workload.local.json}:/config/workload.json:ro
+      - ${WORKLOAD_DATA:-./data/output/smoke-50000}:/data:ro
+    ports:
+      - "127.0.0.1:${OBSERVER_METRICS_PORT:-9092}:9092"
+    extra_hosts:
+      - "host.containers.internal:host-gateway"
+    networks:
+      - monitoring
+
+networks:
+  monitoring:
+    external: true
+    name: ${MONITORING_NETWORK:-chaos-monitoring}
